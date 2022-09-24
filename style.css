@@ -33,6 +33,12 @@ body {
     color: rgba(175, 47, 47, 0.15)
 }
 
+.todoapp{
+    background: #fff;
+    position: relative;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%), 0 25px 50px 0 rgb(0 0 0 / 10%);
+}
+
 .add-todo {
     width: 100%;
     font-size: 24px;
@@ -54,9 +60,49 @@ body {
 .footer{
     color: #777;
     padding: 10px 15px;
-    height: 20px;
+    height: 40px;
     display: flex;
     justify-content: space-between;
     border-top: 1px solid #e6e6e6;
 }
+
+.filterList{
+    margin: 0;
+}
+
+.filterValue{
+    text-decoration: none;
+    display: inline;
+}
+
+.filterValue a{
+    color: rgba(100, 100, 100, 0.8);
+    margin: 3px;
+    padding: 3px 7px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 3px;
+}
+
+.filterValue a:hover {
+    border-color: rgba(175, 47, 47, 0.1);
+}
+
+.filterValue a.selected {
+    border-color: rgba(175, 47, 47, 0.2);
+}
+
+#clearButton{
+    float: right;
+    color: rgba(100, 100, 100, 0.8);
+    text-decoration: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+#clearButton:hover{
+    text-decoration: underline;
+}
+
 
