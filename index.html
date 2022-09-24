@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ToDoList</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="todoList">
+    <div class="container">
+        <h1 class="title">todos</h1>
+        <input type="text" class="add-todo" autofocus placeholder="What needs to be done?">
+        <section class="main" style="display: none">
+            <input id="toggle-all" class="toggle-all" type="checkbox">
+            <label for="toggle-all">Mark all as complete</label>
+        </section>
+        <footer class="footer">
+            <div>
+                <span class="todosLeft">1 item left</span>
+            </div>
+            <div class="filterList">
+                <button class="filterValue">All</button>
+                <button class="filterValue">Active</button>
+                <button class="filterValue">Completed</button>
+            </div>
+            <div>
+                <button class="clearButton">Clear completed</button>
+            </div>
+        </footer>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
