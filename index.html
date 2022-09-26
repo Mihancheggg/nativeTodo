@@ -6,14 +6,30 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="todoList">
+<div class="app">
     <div class="container">
         <h1 class="title">todos</h1>
         <div class="todoapp">
             <input type="text" class="add-todo" autofocus placeholder="What needs to be done?">
-            <section class="main" style="display: none">
+            <section class="main" style="display: block">
                 <input id="toggle-all" class="toggle-all" type="checkbox">
                 <label for="toggle-all">Mark all as complete</label>
+                <ul class="todolist">
+                    <li>
+                        <div class="view">
+                            <input type="checkbox" class="toggle">
+                            <label>32434</label>
+                            <button class="destroy"></button>
+                        </div>
+                    </li>
+                    <li class="completed">
+                        <div class="view">
+                            <input type="checkbox" class="toggle" checked>
+                            <label>32434</label>
+                            <button class="destroy"></button>
+                        </div>
+                    </li>
+                </ul>
             </section>
             <footer class="footer" style="display: flex">
                 <div>
