@@ -110,17 +110,17 @@ button {
     color: #737373;
 }
 
-.todolist{
+.todoItems{
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.todolist li:last-child {
+.todoItems li:last-child {
     border-bottom: none;
 }
 
-.todolist li {
+.todoItems li {
     position: relative;
     font-size: 24px;
     border-bottom: 1px solid #ededed;
@@ -148,7 +148,7 @@ button {
     background-position: center left;
 }
 
-.todolist li label {
+.todoItems li label {
     word-break: break-all;
     padding: 15px 15px 15px 60px;
     display: block;
@@ -160,7 +160,7 @@ button {
     background-image: url(assets/images/done.svg);
 }
 
-.todolist li.completed label {
+.todoItems li.completed label {
     color: #d9d9d9;
     text-decoration: line-through;
 }
@@ -179,7 +179,7 @@ button {
     transition: color 0.2s ease-out;
 }
 
-.todolist li:hover .destroy {
+.todoItems li:hover .destroy {
     display: block;
 }
 
