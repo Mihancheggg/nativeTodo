@@ -4,8 +4,21 @@ let toggle = document.getElementById('toggle-all');
 let clearButton = document.getElementById('clearButton');
 let toDoList = [];
 let todoItems = document.querySelector('.todoItems');
+let main = document.querySelector('.main')
+let footer = document.querySelector('.footer')
+let todosLeft = document.querySelector('.todosLeft')
 
 //functions
+function show() {
+    main.style.display = 'block';
+    footer.style.display = 'flex';
+}
+
+function hide() {
+    main.style.display = 'none';
+    footer.style.display = 'none';
+}
+
 if (localStorage.getItem('todoItems')) {
     toDoList = JSON.parse(localStorage.getItem('todoItems'))
     displayTodoItems()
@@ -82,5 +95,12 @@ toggle.addEventListener('click', () => {
             item.done = false
         })
     }
+    setToLocalStorage()
+    displayTodoItems()
+})
+
+clearButton.addEventListener('click', function () {
+    toDoList = toDoList.filter(item => item.done === false)
+    setToLocalStorage()
     displayTodoItems()
 })
