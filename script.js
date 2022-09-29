@@ -4,25 +4,29 @@ let toggle = document.getElementById('toggle-all');
 let clearButton = document.getElementById('clearButton');
 let toDoList = [];
 let todoItems = document.querySelector('.todoItems');
-let main = document.querySelector('.main')
-let footer = document.querySelector('.footer')
-let todosLeft = document.querySelector('.todosLeft')
+let main = document.querySelector('.main');
+let footer = document.querySelector('.footer');
+let todosLeft = document.querySelector('.todosLeft');
+let allFilter = document.querySelector('#all');
+let activeFilter = document.querySelector('#active');
+let completedFilter = document.querySelector('#completed');
+let currentFilter = 'all'
 
 //functions
-function show() {
-    main.style.display = 'block';
-    footer.style.display = 'flex';
-}
-
-function hide() {
-    main.style.display = 'none';
-    footer.style.display = 'none';
-}
-
 if (localStorage.getItem('todoItems')) {
     toDoList = JSON.parse(localStorage.getItem('todoItems'))
     displayTodoItems()
 }
+
+/*if(toDoList.length){
+    main.style.display = 'block';
+    footer.style.display = 'flex';
+}
+
+if(!toDoList.length){
+    main.style.display = 'none';
+    footer.style.display = 'none';
+}*/
 
 function setToLocalStorage() {
     localStorage.setItem('todoItems', JSON.stringify(toDoList))
@@ -36,18 +40,27 @@ function addTodoItem() {
         };
 
         toDoList.push(newTodoItem);
+        setToLocalStorage();
         displayTodoItems();
-        setToLocalStorage()
+
         addTodo.value = ''
     }
 }
 
 function displayTodoItems() {
+    let itemsForDisplay = toDoList
     let displayTodoItem = '';
-    if (toDoList.length === 0) {
+    if (itemsForDisplay.length === 0) {
         todoItems.innerHTML = ''
+    } else if (currentFilter === "all"){
+        itemsForDisplay = toDoList;
+    } else if (currentFilter === "active"){
+        itemsForDisplay = toDoList.filter(el=> !el.done)
+    } else if (currentFilter === "completed"){
+        itemsForDisplay = toDoList.filter(el=> el.done)
     }
-    toDoList.forEach(function (item, index) {
+
+    itemsForDisplay.forEach(function (item, index) {
         displayTodoItem += `
         <li class="${item.done ? 'completed' : ''}">
             <div class="view">
@@ -59,6 +72,37 @@ function displayTodoItems() {
         `
         todoItems.innerHTML = displayTodoItem
     })
+    displayItemsLeft()
+}
+
+function displayItemsLeft() {
+    let counter = 0;
+    toDoList.forEach(function (item) {
+        if (!item.done) {
+            counter += 1
+        }
+    })
+    if (counter === 1) {
+        todosLeft.innerHTML = '1 item left'
+    } else {
+        todosLeft.innerHTML = `${counter} items left`
+    }
+}
+
+function setTogglerChecked() {
+    let counter = 0;
+    toDoList.forEach(function (item) {
+        if (item.done) {
+            counter += 1
+        }
+    })
+    if (!toDoList.length) {
+        toggle.checked = false
+    } else if (toDoList.length === counter) {
+        toggle.checked = true
+    } else {
+        toggle.checked = false
+    }
 }
 
 //event listeners
@@ -71,6 +115,8 @@ todoItems.addEventListener('change', function (event) {
             item.done = !item.done
             setToLocalStorage()
             displayTodoItems()
+            displayItemsLeft()
+            setTogglerChecked()
         }
     })
 })
@@ -102,5 +148,22 @@ toggle.addEventListener('click', () => {
 clearButton.addEventListener('click', function () {
     toDoList = toDoList.filter(item => item.done === false)
     setToLocalStorage()
+    displayTodoItems()
+    displayItemsLeft()
+    setTogglerChecked()
+})
+
+allFilter.addEventListener('click', function (){
+    currentFilter = "all";
+    displayTodoItems()
+})
+
+activeFilter.addEventListener('click', function (){
+    currentFilter = "active";
+    displayTodoItems()
+})
+
+completedFilter.addEventListener('click', function (){
+    currentFilter = "completed";
     displayTodoItems()
 })
