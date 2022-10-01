@@ -204,6 +204,8 @@ button {
 .filterValue {
     text-decoration: none;
     display: inline;
+    border: 1px solid transparent;
+    border-radius: 3px;
 }
 
 .filterValue a {
@@ -211,15 +213,13 @@ button {
     margin: 3px;
     padding: 3px 7px;
     text-decoration: none;
-    border: 1px solid transparent;
-    border-radius: 3px;
 }
 
-.filterValue a:hover {
+.filterValue:hover {
     border-color: rgba(175, 47, 47, 0.1);
 }
 
-.filterValue a.selected {
+.filterList .selected {
     border-color: rgba(175, 47, 47, 0.2);
 }
 

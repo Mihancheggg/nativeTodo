@@ -7,6 +7,7 @@ let todoItems = document.querySelector('.todoItems');
 let main = document.querySelector('.main');
 let footer = document.querySelector('.footer');
 let todosLeft = document.querySelector('.todosLeft');
+let filterList = document.querySelector('.filterList')
 let allFilter = document.querySelector('#all');
 let activeFilter = document.querySelector('#active');
 let completedFilter = document.querySelector('#completed');
@@ -21,9 +22,9 @@ if (localStorage.getItem('todoItems')) {
 /*if(toDoList.length){
     main.style.display = 'block';
     footer.style.display = 'flex';
-}
+}*/
 
-if(!toDoList.length){
+/*if(!toDoList.length){
     main.style.display = 'none';
     footer.style.display = 'none';
 }*/
@@ -52,12 +53,12 @@ function displayTodoItems() {
     let displayTodoItem = '';
     if (itemsForDisplay.length === 0) {
         todoItems.innerHTML = ''
-    } else if (currentFilter === "all"){
+    } else if (currentFilter === "all") {
         itemsForDisplay = toDoList;
-    } else if (currentFilter === "active"){
-        itemsForDisplay = toDoList.filter(el=> !el.done)
-    } else if (currentFilter === "completed"){
-        itemsForDisplay = toDoList.filter(el=> el.done)
+    } else if (currentFilter === "active") {
+        itemsForDisplay = toDoList.filter(el => !el.done)
+    } else if (currentFilter === "completed") {
+        itemsForDisplay = toDoList.filter(el => el.done)
     }
 
     itemsForDisplay.forEach(function (item, index) {
@@ -105,6 +106,26 @@ function setTogglerChecked() {
     }
 }
 
+function setFilter(filter) {
+    switch (filter){
+        case 'all':
+            allFilter.setAttribute('class', "filterValue selected")
+            activeFilter.setAttribute('class', "filterValue")
+            completedFilter.setAttribute('class', "filterValue")
+            break
+        case 'active':
+            allFilter.setAttribute('class', "filterValue")
+            activeFilter.setAttribute('class', "filterValue selected")
+            completedFilter.setAttribute('class', "filterValue")
+            break
+        case 'completed':
+            allFilter.setAttribute('class', "filterValue")
+            activeFilter.setAttribute('class', "filterValue")
+            completedFilter.setAttribute('class', "filterValue selected")
+            break
+    }
+}
+
 //event listeners
 todoItems.addEventListener('change', function (event) {
     let todoItemID = event.target.getAttribute('id')
@@ -143,7 +164,7 @@ toggle.addEventListener('click', () => {
     }
     setToLocalStorage()
     displayTodoItems()
-})
+});
 
 clearButton.addEventListener('click', function () {
     toDoList = toDoList.filter(item => item.done === false)
@@ -151,19 +172,22 @@ clearButton.addEventListener('click', function () {
     displayTodoItems()
     displayItemsLeft()
     setTogglerChecked()
-})
+});
 
-allFilter.addEventListener('click', function (){
+allFilter.addEventListener('click', function () {
     currentFilter = "all";
+    setFilter('all')
     displayTodoItems()
-})
+});
 
-activeFilter.addEventListener('click', function (){
+activeFilter.addEventListener('click', function () {
     currentFilter = "active";
+    setFilter('active')
     displayTodoItems()
-})
+});
 
-completedFilter.addEventListener('click', function (){
+completedFilter.addEventListener('click', function () {
     currentFilter = "completed";
+    setFilter('completed')
     displayTodoItems()
-})
+});
