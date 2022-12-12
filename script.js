@@ -11,7 +11,7 @@ let filterList = document.querySelector('.filterList')
 let allFilter = document.querySelector('#all');
 let activeFilter = document.querySelector('#active');
 let completedFilter = document.querySelector('#completed');
-let currentFilter = 'all'
+let currentFilter = 'all';
 
 //functions
 if (localStorage.getItem('todoItems')) {
@@ -29,15 +29,23 @@ if (localStorage.getItem('todoItems')) {
     footer.style.display = 'none';
 }*/
 
+function setRandomId(){
+    return Math.round(Math.random()*100000000)
+}
+
 function setToLocalStorage() {
     localStorage.setItem('todoItems', JSON.stringify(toDoList))
 }
 
 function addTodoItem() {
-    if (addTodo.value) {
+
+    const newId = setRandomId()
+
+    if (addTodo.value.trim()) {
         let newTodoItem = {
-            todo: addTodo.value,
-            done: false
+            todo: addTodo.value.trim(),
+            done: false,
+            id: +newId
         };
 
         toDoList.push(newTodoItem);
@@ -63,16 +71,17 @@ function displayTodoItems() {
 
     itemsForDisplay.forEach(function (item, index) {
         displayTodoItem += `
-        <li class="${item.done ? 'completed' : ''}">
+        <li class="${item.done ? 'completed' : ''}" id=${item.id}>
             <div class="view">
                 <input type="checkbox" class="toggle" id='item_${index}' ${item.done && 'checked'}>
                 <label for='item_${index}'>${item.todo}</label>
-                <button class="destroy"></button>
+                <button data-action="delete" class="destroy"></button>
             </div>
         </li>
         `
         todoItems.innerHTML = displayTodoItem
     })
+    //todoItems.insertAdjacentHTML('beforeend', displayTodoItem) пока не работает
     displayItemsLeft()
 }
 
@@ -126,6 +135,16 @@ function setFilter(filter) {
     }
 }
 
+function deleteItem(event){
+    if(event.target.dataset.action === 'delete'){
+        const parentNodeId = event.target.closest('li').id
+        toDoList = toDoList.filter(item => item.id !== +parentNodeId)
+        setToLocalStorage()
+        displayTodoItems()
+        displayItemsLeft()
+    }
+}
+
 //event listeners
 todoItems.addEventListener('change', function (event) {
     let todoItemID = event.target.getAttribute('id')
@@ -141,6 +160,9 @@ todoItems.addEventListener('change', function (event) {
         }
     })
 })
+
+todoItems.addEventListener('click', deleteItem)
+
 addTodo.addEventListener('blur', addTodoItem)
 addTodo.addEventListener('keydown', function (event) {
     if (event.keyCode === 13) {
