@@ -74,7 +74,7 @@ function displayTodoItems() {
         <li class="${item.done ? 'completed' : ''}" id=${item.id}>
             <div class="view">
                 <input type="checkbox" class="toggle" id='item_${index}' ${item.done && 'checked'}>
-                <label for='item_${index}'>${item.todo}</label>
+                <label>${item.todo}</label>
                 <button data-action="delete" class="destroy"></button>
             </div>
         </li>
@@ -145,8 +145,23 @@ function deleteItem(event){
     }
 }
 
+function toggleDone(event){
+    if(event.target.className === "toggle"){
+        const parentNodeId = event.target.closest('li').id
+        toDoList.forEach(function (item) {
+            if (item.id === +parentNodeId) {
+                item.done = !item.done
+                setToLocalStorage()
+                displayTodoItems()
+                displayItemsLeft()
+                setTogglerChecked()
+            }
+        })
+    }
+}
+
 //event listeners
-todoItems.addEventListener('change', function (event) {
+/*todoItems.addEventListener('change', function (event) {
     let todoItemID = event.target.getAttribute('id')
     let forItemLabel = document.querySelector('[for=' + todoItemID + ']')
     let labelValue = forItemLabel.innerHTML
@@ -159,9 +174,11 @@ todoItems.addEventListener('change', function (event) {
             setTogglerChecked()
         }
     })
-})
+})*/
+//old version for (for='item_${index}') label property
 
 todoItems.addEventListener('click', deleteItem)
+todoItems.addEventListener('click', toggleDone)
 
 addTodo.addEventListener('blur', addTodoItem)
 addTodo.addEventListener('keydown', function (event) {
