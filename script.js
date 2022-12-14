@@ -29,8 +29,8 @@ if (localStorage.getItem('todoItems')) {
     footer.style.display = 'none';
 }*/
 
-function setRandomId(){
-    return Math.round(Math.random()*100000000)
+function setRandomId() {
+    return Math.round(Math.random() * 100000000)
 }
 
 function setToLocalStorage() {
@@ -45,7 +45,8 @@ function addTodoItem() {
         let newTodoItem = {
             todo: addTodo.value.trim(),
             done: false,
-            id: +newId
+            id: +newId,
+            editMode: false
         };
 
         toDoList.push(newTodoItem);
@@ -70,15 +71,18 @@ function displayTodoItems() {
     }
 
     itemsForDisplay.forEach(function (item, index) {
-        displayTodoItem += `
-        <li class="${item.done ? 'completed' : ''}" id=${item.id}>
-            <div class="view">
-                <input type="checkbox" class="toggle" id='item_${index}' ${item.done && 'checked'}>
-                <label>${item.todo}</label>
-                <button data-action="delete" class="destroy"></button>
-            </div>
-        </li>
-        `
+        displayTodoItem += !item.editMode ?
+            `<li class="${item.done ? 'completed' : ''}" id=${item.id}>
+                <div class="view">
+                    <input type="checkbox" class="toggle" id='item_${index}' ${item.done && 'checked'}>
+                    <label>${item.todo}</label>
+                    <button data-action="delete" class="destroy"></button>
+                </div>
+            </li>`
+            :
+            `<li id=${item.id}>
+                <input class="edit" type="text" value=${item.todo}>
+            </li>`
         todoItems.innerHTML = displayTodoItem
     })
     //todoItems.insertAdjacentHTML('beforeend', displayTodoItem) пока не работает
@@ -116,7 +120,7 @@ function setTogglerChecked() {
 }
 
 function setFilter(filter) {
-    switch (filter){
+    switch (filter) {
         case 'all':
             allFilter.setAttribute('class', "filterValue selected")
             activeFilter.setAttribute('class', "filterValue")
@@ -135,8 +139,8 @@ function setFilter(filter) {
     }
 }
 
-function deleteItem(event){
-    if(event.target.dataset.action === 'delete'){
+function deleteItem(event) {
+    if (event.target.dataset.action === 'delete') {
         const parentNodeId = event.target.closest('li').id
         toDoList = toDoList.filter(item => item.id !== +parentNodeId)
         setToLocalStorage()
@@ -145,8 +149,8 @@ function deleteItem(event){
     }
 }
 
-function toggleDone(event){
-    if(event.target.className === "toggle"){
+function toggleDone(event) {
+    if (event.target.className === "toggle") {
         const parentNodeId = event.target.closest('li').id
         toDoList.forEach(function (item) {
             if (item.id === +parentNodeId) {
@@ -157,6 +161,27 @@ function toggleDone(event){
                 setTogglerChecked()
             }
         })
+    }
+}
+
+function editModeOn(event) {
+    if (event.target.tagName === 'LABEL') {
+        const parentNodeId = event.target.closest('li').id
+        //basic way
+        //const item = toDoList.find(el => el.id === +parentNodeId)
+        //item.editMode = true
+        //until editModeOff is not ready
+        //toDoList = toDoList.map(el => el.id === +parentNodeId ? {...el, editMode: true} : {...el, editMode: false})
+        displayTodoItems()
+    }
+}
+
+function editModeOff(event) {
+    if (event.target.className === 'INPUT') {
+
+    } else {
+        toDoList.map(item => !item.editMode)
+        displayTodoItems()
     }
 }
 
@@ -179,6 +204,9 @@ function toggleDone(event){
 
 todoItems.addEventListener('click', deleteItem)
 todoItems.addEventListener('click', toggleDone)
+todoItems.addEventListener('dblclick', editModeOn)
+window.addEventListener('click', ()=> {
+    console.log('click')}    )
 
 addTodo.addEventListener('blur', addTodoItem)
 addTodo.addEventListener('keydown', function (event) {
