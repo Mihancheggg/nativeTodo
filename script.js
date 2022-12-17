@@ -12,6 +12,7 @@ let allFilter = document.querySelector('#all');
 let activeFilter = document.querySelector('#active');
 let completedFilter = document.querySelector('#completed');
 let currentFilter = 'all';
+let edit;
 
 //functions
 if (localStorage.getItem('todoItems')) {
@@ -81,11 +82,11 @@ function displayTodoItems() {
             </li>`
             :
             `<li id=${item.id}>
-                <input autofocus class="edit" type="text" value=${item.todo}>
+                <input class="edit" type="text" value=${item.todo}>
             </li>`
         todoItems.innerHTML = displayTodoItem
     })
-    //todoItems.insertAdjacentHTML('beforeend', displayTodoItem) пока не работает
+    //todoItems.insertAdjacentHTML('beforeend', displayTodoItem) альтернативный вариант
     displayItemsLeft()
 }
 
@@ -165,6 +166,7 @@ function toggleDone(event) {
 }
 
 function editModeOn(event) {
+    editModeOff()
     if (event.target.tagName === 'LABEL') {
         const parentNodeId = event.target.closest('li').id
         //basic way
@@ -174,16 +176,21 @@ function editModeOn(event) {
         //toDoList = toDoList.map(el => el.id === +parentNodeId ? {...el, editMode: true} : {...el, editMode: false})
         displayTodoItems()
     }
+    edit = document.querySelector('.edit')
+    edit.addEventListener('blur', saveChanges)
+    edit.focus()
 }
 
 function editModeOff() {
     toDoList = toDoList.map(item => item.editMode === true ? {...item, editMode: false} : item)
+    edit = null
 }
 
 function saveChanges() {
     let newValue = document.querySelector('.edit').value.trim()
     toDoList = toDoList.map(item => item.editMode === true ? {...item, todo: newValue} : item)
     editModeOff()
+    displayTodoItems()
     setToLocalStorage()
 }
 
@@ -193,7 +200,7 @@ function saveChanges() {
     let forItemLabel = document.querySelector('[for=' + todoItemID + ']')
     let labelValue = forItemLabel.innerHTML
     toDoList.forEach(function (item) {
-        if (item.todo === labelValue) {
+        if (item.tod/o === labelValue) {
             item.done = !item.done
             setToLocalStorage()
             displayTodoItems()
@@ -207,6 +214,7 @@ function saveChanges() {
 todoItems.addEventListener('click', deleteItem)
 todoItems.addEventListener('click', toggleDone)
 todoItems.addEventListener('dblclick', editModeOn)
+
 window.addEventListener('keydown', function (event) {
     let editedItems = toDoList.filter(item => item.editMode === true)
     if (editedItems.length) {
