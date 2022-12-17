@@ -81,7 +81,7 @@ function displayTodoItems() {
             </li>`
             :
             `<li id=${item.id}>
-                <input class="edit" type="text" value=${item.todo}>
+                <input autofocus class="edit" type="text" value=${item.todo}>
             </li>`
         todoItems.innerHTML = displayTodoItem
     })
@@ -168,21 +168,23 @@ function editModeOn(event) {
     if (event.target.tagName === 'LABEL') {
         const parentNodeId = event.target.closest('li').id
         //basic way
-        //const item = toDoList.find(el => el.id === +parentNodeId)
-        //item.editMode = true
+        const item = toDoList.find(el => el.id === +parentNodeId)
+        item.editMode = true
         //until editModeOff is not ready
         //toDoList = toDoList.map(el => el.id === +parentNodeId ? {...el, editMode: true} : {...el, editMode: false})
         displayTodoItems()
     }
 }
 
-function editModeOff(event) {
-    if (event.target.className === 'INPUT') {
+function editModeOff() {
+    toDoList = toDoList.map(item => item.editMode === true ? {...item, editMode: false} : item)
+}
 
-    } else {
-        toDoList.map(item => !item.editMode)
-        displayTodoItems()
-    }
+function saveChanges() {
+    let newValue = document.querySelector('.edit').value.trim()
+    toDoList = toDoList.map(item => item.editMode === true ? {...item, todo: newValue} : item)
+    editModeOff()
+    setToLocalStorage()
 }
 
 //event listeners
@@ -205,8 +207,18 @@ function editModeOff(event) {
 todoItems.addEventListener('click', deleteItem)
 todoItems.addEventListener('click', toggleDone)
 todoItems.addEventListener('dblclick', editModeOn)
-window.addEventListener('click', ()=> {
-    console.log('click')}    )
+window.addEventListener('keydown', function (event) {
+    let editedItems = toDoList.filter(item => item.editMode === true)
+    if (editedItems.length) {
+        if (event.code === 'Escape') {
+            editModeOff()
+            displayTodoItems()
+        } else if (event.code === 'Enter') {
+            saveChanges()
+            displayTodoItems()
+        }
+    }
+})
 
 addTodo.addEventListener('blur', addTodoItem)
 addTodo.addEventListener('keydown', function (event) {
