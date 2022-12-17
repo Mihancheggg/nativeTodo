@@ -178,6 +178,7 @@ function editModeOn(event) {
     }
     edit = document.querySelector('.edit')
     edit.addEventListener('blur', saveChanges)
+    edit.selectionStart = edit.value.length
     edit.focus()
 }
 
