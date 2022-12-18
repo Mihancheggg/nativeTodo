@@ -59,6 +59,7 @@ function addTodoItem() {
 }
 
 function displayTodoItems() {
+    debugger
     let itemsForDisplay = toDoList
     let displayTodoItem = '';
     if (itemsForDisplay.length === 0) {
@@ -71,21 +72,26 @@ function displayTodoItems() {
         itemsForDisplay = toDoList.filter(el => el.done)
     }
 
-    itemsForDisplay.forEach(function (item, index) {
-        displayTodoItem += !item.editMode ?
-            `<li class="${item.done ? 'completed' : ''}" id=${item.id}>
+    if(itemsForDisplay.length){
+        itemsForDisplay.forEach(function (item, index) {
+            displayTodoItem += !item.editMode ?
+                `<li class="${item.done ? 'completed' : ''}" id=${item.id}>
                 <div class="view">
                     <input type="checkbox" class="toggle" id='item_${index}' ${item.done && 'checked'}>
                     <label>${item.todo}</label>
                     <button data-action="delete" class="destroy"></button>
                 </div>
             </li>`
-            :
-            `<li id=${item.id}>
+                :
+                `<li id=${item.id}>
                 <input class="edit" type="text" value=${item.todo}>
             </li>`
-        todoItems.innerHTML = displayTodoItem
-    })
+            todoItems.innerHTML = displayTodoItem
+        })
+    } else {
+        todoItems.innerHTML = ''
+    }
+
     //todoItems.insertAdjacentHTML('beforeend', displayTodoItem) альтернативный вариант
     displayItemsLeft()
 }
@@ -275,6 +281,7 @@ activeFilter.addEventListener('click', function () {
 });
 
 completedFilter.addEventListener('click', function () {
+    debugger
     currentFilter = "completed";
     setFilter('completed')
     displayTodoItems()
