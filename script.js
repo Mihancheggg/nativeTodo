@@ -59,7 +59,6 @@ function addTodoItem() {
 }
 
 function displayTodoItems() {
-    debugger
     let itemsForDisplay = toDoList
     let displayTodoItem = '';
     if (itemsForDisplay.length === 0) {
@@ -281,7 +280,6 @@ activeFilter.addEventListener('click', function () {
 });
 
 completedFilter.addEventListener('click', function () {
-    debugger
     currentFilter = "completed";
     setFilter('completed')
     displayTodoItems()
