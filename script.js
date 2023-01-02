@@ -30,9 +30,9 @@ if (localStorage.getItem('todoItems')) {
     footer.style.display = 'none';
 }*/
 
-function setRandomId() {
+/*function setRandomId() {
     return Math.round(Math.random() * 100000000)
-}
+}*/
 
 function setToLocalStorage() {
     localStorage.setItem('todoItems', JSON.stringify(toDoList))
@@ -40,13 +40,11 @@ function setToLocalStorage() {
 
 function addTodoItem() {
 
-    const newId = setRandomId()
-
     if (addTodo.value.trim()) {
         const newTodoItem = {
             todo: addTodo.value.trim(),
             done: false,
-            id: +newId,
+            id: Date.now(),
             editMode: false
         };
 
