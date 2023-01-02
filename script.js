@@ -1,16 +1,16 @@
 //variables
-let addTodo = document.querySelector('.add-todo');
-let toggle = document.getElementById('toggle-all');
-let clearButton = document.getElementById('clearButton');
+const addTodo = document.querySelector('.add-todo');
+const toggle = document.getElementById('toggle-all');
+const clearButton = document.getElementById('clearButton');
 let toDoList = [];
-let todoItems = document.querySelector('.todoItems');
-let main = document.querySelector('.main');
-let footer = document.querySelector('.footer');
-let todosLeft = document.querySelector('.todosLeft');
-let filterList = document.querySelector('.filterList')
-let allFilter = document.querySelector('#all');
-let activeFilter = document.querySelector('#active');
-let completedFilter = document.querySelector('#completed');
+const todoItems = document.querySelector('.todoItems');
+const main = document.querySelector('.main');
+const footer = document.querySelector('.footer');
+const todosLeft = document.querySelector('.todosLeft');
+const filterList = document.querySelector('.filterList')
+const allFilter = document.querySelector('#all');
+const activeFilter = document.querySelector('#active');
+const completedFilter = document.querySelector('#completed');
 let currentFilter = 'all';
 let edit;
 
@@ -43,7 +43,7 @@ function addTodoItem() {
     const newId = setRandomId()
 
     if (addTodo.value.trim()) {
-        let newTodoItem = {
+        const newTodoItem = {
             todo: addTodo.value.trim(),
             done: false,
             id: +newId,
@@ -193,7 +193,7 @@ function editModeOff() {
 }
 
 function saveChanges() {
-    let newValue = document.querySelector('.edit').value.trim()
+    const newValue = document.querySelector('.edit').value.trim()
     toDoList = toDoList.map(item => item.editMode === true ? {...item, todo: newValue} : item)
     editModeOff()
     displayTodoItems()
@@ -222,7 +222,7 @@ todoItems.addEventListener('click', toggleDone)
 todoItems.addEventListener('dblclick', editModeOn)
 
 window.addEventListener('keydown', function (event) {
-    let editedItems = toDoList.filter(item => item.editMode === true)
+    const editedItems = toDoList.filter(item => item.editMode === true)
     if (editedItems.length) {
         if (event.code === 'Escape') {
             editModeOff()
@@ -242,7 +242,7 @@ addTodo.addEventListener('keydown', function (event) {
 })
 
 toggle.addEventListener('click', () => {
-    let isDoneArr = [];
+    const isDoneArr = [];
     toDoList.forEach(function (item) {
         isDoneArr.push(item.done)
     })
