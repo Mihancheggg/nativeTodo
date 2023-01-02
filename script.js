@@ -40,9 +40,11 @@ function setToLocalStorage() {
 
 function addTodoItem() {
 
-    if (addTodo.value.trim()) {
+    const todoTitle = addTodo.value.trim()
+
+    if (todoTitle) {
         const newTodoItem = {
-            todo: addTodo.value.trim(),
+            todo: todoTitle,
             done: false,
             id: Date.now(),
             editMode: false
@@ -100,11 +102,7 @@ function displayItemsLeft() {
             counter += 1
         }
     })
-    if (counter === 1) {
-        todosLeft.innerHTML = '1 item left'
-    } else {
-        todosLeft.innerHTML = `${counter} items left`
-    }
+    todosLeft.innerHTML = (counter === 1 ? '1 item left' : `${counter} items left`)
 }
 
 function setTogglerChecked() {
