@@ -105,7 +105,7 @@ function displayItemsLeft() {
     todosLeft.innerHTML = (counter === 1 ? '1 item left' : `${counter} items left`)
 }
 
-function setTogglerChecked() {
+function updateToggler() {
     let counter = 0;
     toDoList.forEach(function (item) {
         if (item.done) {
@@ -160,7 +160,7 @@ function toggleDone(event) {
                 setToLocalStorage()
                 displayTodoItems()
                 displayItemsLeft()
-                setTogglerChecked()
+                updateToggler()
             }
         })
     }
@@ -207,7 +207,7 @@ function saveChanges() {
             setToLocalStorage()
             displayTodoItems()
             displayItemsLeft()
-            setTogglerChecked()
+            updateToggler()
         }
     })
 })*/
@@ -260,7 +260,7 @@ clearButton.addEventListener('click', function () {
     setToLocalStorage()
     displayTodoItems()
     displayItemsLeft()
-    setTogglerChecked()
+    updateToggler()
 });
 
 allFilter.addEventListener('click', function () {
